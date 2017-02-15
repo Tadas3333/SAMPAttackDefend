@@ -40,7 +40,7 @@ public SaveVersionInStr(index, response_code, data[])
 		}
 		else // Couldn't connect to the version checker server
 		{
-			printf("Could not connect to the Bulletproof servers to fetch latest version data.");
+			printf("Could not connect to the gamemode servers to fetch latest version data.");
 			#if defined _league_included
 			if(LeagueAllowed)
 			{
