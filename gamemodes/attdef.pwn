@@ -3740,7 +3740,7 @@ YCMD:help(playerid, params[], help)
 	    return 1;
 	}
 	new str[440];
-	strcat(str, "\n"COL_PRIM"Project on GitHub: {FFFFFF}https://github.com/KHKKhalid/SAMPBulletproof/");
+	strcat(str, "\n"COL_PRIM"Project on GitHub: {FFFFFF}https://github.com/beijind/SAMPAttackDefend/");
 	strcat(str, "\n\n\n{FFFFFF}To see server settings: {888888}/settings");
 	strcat(str, "\n{FFFFFF}For admin commands: {888888}/acmds");
 	strcat(str, "\n{FFFFFF}For public commands: {888888}/cmds");
