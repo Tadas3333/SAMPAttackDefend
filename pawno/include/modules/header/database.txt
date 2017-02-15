@@ -1,6 +1,0 @@
-/*
-		Database loading
-*/
-
-new bool:CorrectDatabase = false;
-new bool:DatabaseLoading = false;
