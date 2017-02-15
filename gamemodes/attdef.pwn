@@ -3917,7 +3917,7 @@ YCMD:acgetinfo(playerid, params[], help)
 			format(str, sizeof(str), "HardwareID: %s", hwid);
 			SendClientMessage(playerid, -1, str);
 
-			format(str, sizeof(str), "GetPlayerCBug: %d, GetPlayerLiteFoot: %d, GetPlayerSwitchReload: %d", GetPlayerCrouchBug(targetid), GetPlayerLiteFoot(targetid), GetPlayerSwitchReload(targetid));
+			format(str, sizeof(str), "GetPlayerCBug: %d, GetPlayerSwitchReload: %d", GetPlayerCrouchBug(targetid), GetPlayerSwitchReload(targetid));
 			SendClientMessage(playerid, -1, str);
 
 			format(str, sizeof(str), "GetPlayerFPSLimit: %d", GetPlayerFPSLimit(targetid));
