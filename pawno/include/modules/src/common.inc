@@ -162,7 +162,7 @@ GetPlayerCorrectMarkerCol(playerid, forplayerid)
 	{
 		if(TeamHasLeader[Player[playerid][Team]] == true && TeamLeader[Player[playerid][Team]] == playerid)
 		{
-			return TEAM_LEADER_COLOUR;
+			return (Player[playerid][Team] == ATTACKER ? ATTACKER_TEAM_LEADER : DEFENDER_TEAM_LEADER);
 		}
 		else if(Player[playerid][AskingForHelp])
 		{

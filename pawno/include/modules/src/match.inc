@@ -1124,7 +1124,7 @@ PlayerLeadTeam(playerid, bool:force, bool:message = true)
 					{
 						SendClientMessage(i, -1, sprintf("%s%s {FFFFFF}is now leading the team.", TextColor[team], Player[playerid][Name]));
 					}
-					if(i != playerid && GetPlayerColor(i) == TEAM_LEADER_COLOUR)
+					if(i != playerid && GetPlayerColor(i) == ATTACKER_TEAM_LEADER)
 						ColorFix(i);
 				}
 			}
@@ -1136,13 +1136,13 @@ PlayerLeadTeam(playerid, bool:force, bool:message = true)
 					{
 						SendClientMessage(i, -1, sprintf("%s%s {FFFFFF}is now leading the team.", TextColor[team], Player[playerid][Name]));
 					}
-					if(i != playerid && GetPlayerColor(i) == TEAM_LEADER_COLOUR)
+					if(i != playerid && GetPlayerColor(i) == DEFENDER_TEAM_LEADER)
 						ColorFix(i);
 				}
 			}
 		}
 	}
-	SetPlayerColor(playerid, TEAM_LEADER_COLOUR);
+	SetPlayerColor(playerid, (team == ATTACKER ? ATTACKER_TEAM_LEADER : DEFENDER_TEAM_LEADER));
     RadarFix(playerid);
 	return 1;
 }
