@@ -3752,6 +3752,72 @@ YCMD:changelog(playerid, params[], help)
 	return 1;
 }
 
+#if !defined _league_included
+YCMD:changename(playerid,params[], help)
+{
+    if(help)
+	{
+	    SendCommandHelpMessage(playerid, "change your user account name.");
+	    return 1;
+	}
+	if(Player[playerid][Logged] == false)
+		return SendErrorMessage(playerid,"You must be logged in.");
+	if(Player[playerid][Mute])
+		return SendErrorMessage(playerid, "Cannot use this command when you're muted.");
+	if(isnull(params))
+		return SendUsageMessage(playerid,"/changename [New Name]");
+	if(strlen(params) <= 1)
+		return SendErrorMessage(playerid,"Name cannot be that short!");
+
+	switch(SetPlayerName(playerid,params))
+	{
+	    case 1:
+	    {
+	        //success
+	        new iString[128],
+				DBResult: result
+			;
+
+			format( iString, sizeof(iString), "SELECT * FROM `Players` WHERE `Name` = '%s'", DB_Escape(params) );
+			result = db_query(sqliteconnection, iString);
+
+			if(db_num_rows(result) > 0)
+			{
+			    db_free_result(result);
+			    //name in Use in DB.
+			    SetPlayerName( playerid, Player[playerid][Name] );
+			    return SendErrorMessage(playerid,"Name already registered!");
+			}
+			else
+			{
+			    db_free_result(result);
+			    //name changed successfully!!
+
+				format(iString, sizeof(iString),"{FFFFFF}%s "COL_PRIM"has changed name to {FFFFFF}%s",Player[playerid][Name],params);
+				SendClientMessageToAll(-1,iString);
+
+				format(iString, sizeof(iString), "UPDATE `Players` SET `Name` = '%s' WHERE `Name` = '%s'", DB_Escape(params), DB_Escape(Player[playerid][Name]) );
+				db_free_result(db_query(sqliteconnection, iString));
+
+				format( Player[playerid][Name], MAX_PLAYER_NAME, "%s", params );
+
+			    new NewName[MAX_PLAYER_NAME];
+				NewName = RemoveClanTagFromName(playerid);
+
+				if(strlen(NewName) != 0)
+					Player[playerid][NameWithoutTag] = NewName;
+				else
+					Player[playerid][NameWithoutTag] = Player[playerid][Name];
+			    return 1;
+			}
+	    }
+		case 0: return SendErrorMessage(playerid,"You're already using that name.");
+		case -1: return SendErrorMessage(playerid,"Either Name is too long, already in use or has invalid characters.");
+	}
+	return 1;
+}
+#endif
+
 YCMD:help(playerid, params[], help)
 {
 	if(help)
@@ -3760,7 +3826,7 @@ YCMD:help(playerid, params[], help)
 	    return 1;
 	}
 	new str[440];
-	strcat(str, "\n"COL_PRIM"Project on GitHub: {FFFFFF}https://github.com/beijind/SAMPAttackDefend/");
+	strcat(str, ""COL_PRIM"Project on GitHub: {FFFFFF}https://github.com/beijind/SAMPAttackDefend/");
 	strcat(str, "\n\n\n{FFFFFF}To see server settings: {888888}/settings");
 	strcat(str, "\n{FFFFFF}For admin commands: {888888}/acmds");
 	strcat(str, "\n{FFFFFF}For public commands: {888888}/cmds");

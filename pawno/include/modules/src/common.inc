@@ -2028,6 +2028,35 @@ public AimbotCheck(playerid)
 #define IsOdd(%0) ((%0)&1)
 #define IsEven(%0) (!IsOdd(%0))
 
+DB_Escape(text[]){
+	new
+		ret[MAX_INI_ENTRY_TEXT * 2],
+		ch,
+		i,
+		j;
+	while ((ch = text[i++]) && j < sizeof (ret))
+	{
+		if (ch == '\'')
+		{
+			if (j < sizeof (ret) - 2)
+			{
+				ret[j++] = '\'';
+				ret[j++] = '\'';
+			}
+		}
+		else if (j < sizeof (ret))
+		{
+			ret[j++] = ch;
+		}
+		else
+		{
+			j++;
+		}
+	}
+	ret[sizeof (ret) - 1] = '\0';
+	return ret;
+}
+
 IsSafeGametext(text[])
 {
 	new cnt = 0;
