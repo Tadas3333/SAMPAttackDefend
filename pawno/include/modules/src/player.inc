@@ -241,7 +241,7 @@ CreatePlayerLabels(playerid)
 	Attach3DTextLabelToPlayer(Player[playerid][InfoLabel], playerid, 0, 0, -0.7);
 	
     Player[playerid][DamageLabel] = Create3DTextLabel(" ", -1, 0, 0, 0, DRAW_DISTANCE-7, 0, 1);
-	Attach3DTextLabelToPlayer(Player[playerid][DamageLabel], playerid, 0, 0, 1.3);	
+	Attach3DTextLabelToPlayer(Player[playerid][DamageLabel], playerid, 0, 0, 1.5);
 }
 
 DestroyPlayerLabels(playerid)

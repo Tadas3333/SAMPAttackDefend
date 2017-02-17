@@ -623,11 +623,12 @@ randomExFloat(Float:min, Float:max)
 	return rand;
 }
 */
+#if defined _league_included
 randomExInt(min, max)
 {
 	return random(max-min) + min;
 }
-
+#endif
 /*
 Function: LogAdminCommand
 cmd[]: the entered command

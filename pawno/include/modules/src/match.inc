@@ -1983,12 +1983,17 @@ public ViewArenaForPlayers()
 	    SpawnPlayersInArena();
 	    ResetTeamLeaders();
 		TextDrawSetString(centerTeamNames, " ");
+		TextDrawSetString(AttDef_RoundTimer, " ");
+	    TextDrawSetString(AttDef_ModernRoundStats[5], " ");
 	    return 1;
 	}
 
 	new iString[64];
 	format(iString,sizeof(iString),"~w~Arena starting in ~r~~h~%d ~w~seconds", ViewTimer);
 	TextDrawSetString( centerTeamNames, iString);
+	TextDrawSetString(AttDef_RoundTimer, iString);
+	TextDrawSetString(AttDef_ModernRoundStats[5], iString);
+	
 	foreach(new i : Player) {
 	    if(Player[i][ToAddInRound] == true) {
 	        PlayerPlaySound(i,1139,0.0,0.0,0.0);
@@ -2339,6 +2344,8 @@ public ViewBaseForPlayers()
 	    SpawnPlayersInBase();
 	    ResetTeamLeaders();
 		TextDrawSetString(centerTeamNames, " ");
+		TextDrawSetString(AttDef_RoundTimer, " ");
+	    TextDrawSetString(AttDef_ModernRoundStats[5], " ");
 	    return 1;
 	}
 
@@ -2414,7 +2421,9 @@ public ViewBaseForPlayers()
 	}
 	new iString[64];
 	format(iString,sizeof(iString),"~w~Base starting in ~r~~h~%d ~w~seconds", ViewTimer);
-	TextDrawSetString( centerTeamNames, iString);
+	TextDrawSetString(centerTeamNames, iString);
+	TextDrawSetString(AttDef_RoundTimer, iString);
+	TextDrawSetString(AttDef_ModernRoundStats[5], iString);
 
 	ViewTimer --;
 	return SetTimer("ViewBaseForPlayers", 1000, false);
