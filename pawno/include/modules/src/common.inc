@@ -1885,10 +1885,11 @@ SyncPlayer(playerid)
 		SetTimerEx("ForceRespectate", 1000, false, "i", playerid);
 
 	// Store info before re-spawn
-	new Float:Pos[4], CurrWep;
+	new Float:Pos[4], CurrWep, Float:Velocity[3];
 	CurrWep = GetPlayerWeapon(playerid);
 	GetPlayerPos(playerid, Pos[0], Pos[1], Pos[2]);
 	GetPlayerFacingAngle(playerid, Pos[3]);
+	GetPlayerVelocity(playerid, Velocity[0], Velocity[1], Velocity[2]);
 	new Weapons[13][2];
 	for(new i = 0; i < 13; i++)
 		GetPlayerWeaponData(playerid, i, Weapons[i][0], Weapons[i][1]);
@@ -1906,6 +1907,9 @@ SyncPlayer(playerid)
 	for(new i = 0; i < 13; i ++)
 	    GivePlayerWeapon(playerid, Weapons[i][0], Weapons[i][1]);
 	SetPlayerArmedWeapon(playerid, CurrWep);
+	
+	if(!SyncAbuse)
+	    SetPlayerVelocity(playerid, Velocity[0], Velocity[1], Velocity[2]);
 
 	// Update tick count
 	Player[playerid][LastTimeSynced] = GetTickCount();

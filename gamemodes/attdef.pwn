@@ -3125,6 +3125,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    db_free_result(db_query(sqliteconnection, iString));
 				    ShowConfigDialog(playerid);
 				}
+                case 27:
+				{
+				    new iString[144];
+				    switch(SyncAbuse)
+				    {
+						case false:
+						{
+						    format(iString, sizeof(iString), "{FFFFFF}%s "COL_PRIM"has {FFFFFF}enabled "COL_PRIM"Sync Abuse{FFFFFF}.", Player[playerid][Name]);
+							SendClientMessageToAll(-1, iString);
+							SyncAbuse = true;
+						}
+						case true:
+						{
+						    format(iString, sizeof(iString), "{FFFFFF}%s "COL_PRIM"has {FFFFFF}disabled "COL_PRIM"Sync Abuse{FFFFFF}.", Player[playerid][Name]);
+							SendClientMessageToAll(-1, iString);
+							SyncAbuse = false;
+						}
+					}
+				    ShowConfigDialog(playerid);
+				}
 	        }
 	    }
 	    return 1;

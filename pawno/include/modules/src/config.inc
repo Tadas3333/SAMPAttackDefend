@@ -140,6 +140,11 @@ ShowConfigDialog(playerid) {
 		strcat(string, "\n{66FF66}Vehicle Health Information");
 	else
 		strcat(string, "\n{FF6666}Vehicle Health Information");
+		
+	if(SyncAbuse == true)
+		strcat(string, "\n{66FF66}Sync Abuse");
+	else
+		strcat(string, "\n{FF6666}Sync Abuse");
 
     ShowPlayerDialog(playerid, DIALOG_CONFIG, DIALOG_STYLE_LIST, ""COL_PRIM"Config Settings", string, "OK", "Cancel");
     return 1;
@@ -264,7 +269,7 @@ LoadConfig()
     db_next_row(res);
 
 	db_get_field_assoc(res, "Value", iString, sizeof(iString)); // GMVersion
-    CorrectDatabase = (floatstr(iString) == GM_VERSION ? true : false);
+    CorrectDatabase = (floatstr(iString) >= DB_VERSION ? true : false);
     db_next_row(res);
 
 	db_get_field_assoc(res, "Value", iString, sizeof(iString)); // Game speed
@@ -284,6 +289,10 @@ LoadConfig()
     db_next_row(res);
 
 	db_free_result(res);
+	
+	// This one is not loaded from the database, because there are some major gamemode configuration changes coming.
+	// And users shouldn't delete their database only to implement this feature.
+	SyncAbuse = true;
 
 	printf("Server Config Loaded.");
 }
