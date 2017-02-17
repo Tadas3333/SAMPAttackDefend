@@ -1058,11 +1058,8 @@ public OnPlayerEnterCheckpoint(playerid)
 			}
 			case ARENA:
 			{
-			    if(!ArenaStarted)
+			    if(!ArenaStarted || !CPInArena)
 			        return 1;
-			        
-				if(!CPInArena)
-					return 1;
 
                 switch(TeamCapturingCP)
 			    {

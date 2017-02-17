@@ -35,7 +35,7 @@ hook OnPlayerDisconnect(playerid, reason)
 	// Resets backup request (player can be not in the round anymore and timer was not completed either)
 	if(Player[playerid][AskingForHelp])
 	{
-		EndTeamBackupRequest(playerid,((Player[playerid][Team] == DEFENDER) ? DEFENDER_BACKUP_ICON : ATTACKER_BACKUP_ICON));
+		EndTeamBackupRequest(playerid);
 	}
 
 	// Handle match
@@ -179,7 +179,7 @@ CheckTeamElimination()
 		}
 	}
 	
-	#if ROUND_NEVER_END != 1
+	#if defined ROUND_NEVER_END
 	// If both teams have no players
 	if(PlayersAlive[ATTACKER] == 0 && PlayersAlive[DEFENDER] == 0)
 	{
@@ -259,7 +259,7 @@ UpdateTeamPlayerCount(teamid, bool:elimination_check, exception = -1)
 	TextDrawSetString(AttDef_RoundStats, str);
 
 	// If we're asked to check team/round elimination
-	#if ROUND_NEVER_END != 1
+	#if defined ROUND_NEVER_END
 	if(elimination_check)
 	{
 		// If round is not paused
@@ -1166,7 +1166,7 @@ PlayerNoLeadTeam(playerid)
 						SendClientMessage(i, -1, sprintf("%s%s {FFFFFF}is no longer leading the team.", TextColor[team], Player[playerid][Name]));
 					}
 				}
-				EndTeamBackupRequest(playerid, ATTACKER_BACKUP_ICON);
+				EndTeamBackupRequest(playerid);
 			}
 			case DEFENDER:
 			{
@@ -1177,7 +1177,7 @@ PlayerNoLeadTeam(playerid)
 						SendClientMessage(i, -1, sprintf("%s%s {FFFFFF}is no longer leading the team.", TextColor[team], Player[playerid][Name]));
 					}
 				}
-				EndTeamBackupRequest(playerid, DEFENDER_BACKUP_ICON);
+				EndTeamBackupRequest(playerid);
 			}
 		}
 	}
@@ -1214,15 +1214,17 @@ ResetBackupRequests()
     foreach(new i : Player)
 	{
 	    if(Player[i][AskingForHelp])
-		    EndTeamBackupRequest(i,((Player[i][Team] == DEFENDER) ? DEFENDER_BACKUP_ICON : ATTACKER_BACKUP_ICON));
+		    EndTeamBackupRequest(i);
 	}
 }
 
-forward EndTeamBackupRequest(playerid, iconid);
-public EndTeamBackupRequest(playerid, iconid)
+forward EndTeamBackupRequest(playerid);
+public EndTeamBackupRequest(playerid)
 {
     if(!Player[playerid][AskingForHelp])return 1;
 
+	new iconid = (Player[playerid][Team] == DEFENDER) ? DEFENDER_BACKUP_ICON : ATTACKER_BACKUP_ICON;
+	
 	new team = Player[playerid][Team];
 	TeamHelp[team] = false;
 	Player[playerid][AskingForHelp] = false;
@@ -1320,7 +1322,7 @@ PlayerRequestBackup(playerid)
 	SetPlayerColor(playerid, team == ATTACKER ? ATTACKER_ASKING_HELP : DEFENDER_ASKING_HELP);
 
 	// Set a timer to end backup request later
-	SetTimerEx("EndTeamBackupRequest", 7000, 0, "ii", playerid, iconID);
+	SetTimerEx("EndTeamBackupRequest", 7000, 0, "i", playerid);
 
 	// Set values to tell that this team has someone requesting for backup now
 	TeamHelp[team] = true;
