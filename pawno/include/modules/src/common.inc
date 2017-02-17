@@ -570,7 +570,9 @@ RecountPlayersOnCP()
 		TeamCapturingCP = NON;
 	    CurrentCPTime = ConfigCPTime + 1;
 	    TextDrawHideForAll(EN_CheckPoint);
+		TextDrawHideForAll(CheckpointWarningBox);
 		TextDrawColor(timerCircleTD, 0x00000033);
+		GangZoneStopFlashForAll(CPZone);
 		foreach(new i : Player)
 		{
 			if(!Player[i][Spawned])
@@ -1640,14 +1642,14 @@ public SetCPForPlayer(playerid)
 		case BASE:
 		{
 			SetPlayerCheckpoint(playerid, BCPSpawn[Current][0], BCPSpawn[Current][1], BCPSpawn[Current][2], 2);
-			GangZoneShowForPlayer(playerid, CPZone, 0xFF000044);
+			GangZoneShowForPlayer(playerid, CPZone, GANGZONE_CP);
 		}
 		case ARENA:
 		{
 			if(!CPInArena)
 				return 0;
 			SetPlayerCheckpoint(playerid, ACPSpawn[Current][0], ACPSpawn[Current][1], ACPSpawn[Current][2], 2);
-			GangZoneShowForPlayer(playerid, CPZone, 0x00000033);
+			GangZoneShowForPlayer(playerid, CPZone, GANGZONE_CPARENA);
 		}
 	}
 	return 1;

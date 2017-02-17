@@ -633,6 +633,7 @@ PlayerVoteEndMatch(playerid)
 					HideRoundStats(i);
 				}
 				TextDrawHideForAll(EN_CheckPoint);
+				TextDrawHideForAll(CheckpointWarningBox);
 
 				ResetGunmenuSelections();
 
@@ -736,7 +737,10 @@ PlayerVoteRestartRound(playerid)
 				}
 				HideRoundStats(i);
 			}
+			GangZoneDestroy(CPZone);
+			GangZoneDestroy(ArenaZone);
 			TextDrawHideForAll(EN_CheckPoint);
+			TextDrawHideForAll(CheckpointWarningBox);
 		}
 	}
 	return 1;

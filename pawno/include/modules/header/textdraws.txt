@@ -48,6 +48,7 @@ new Text: TeamHpLose[2];
 new Text: EN_AttackerBox;
 new Text: EN_DefenderBox;
 new Text: EN_CheckPoint;
+new Text: CheckpointWarningBox;
 new Text: DarkScreen;
 new Text:RedDeathScreen;
 new Text: GunmenuLimitsTD[MAX_TEAMS];

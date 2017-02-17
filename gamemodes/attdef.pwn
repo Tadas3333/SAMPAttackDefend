@@ -1010,6 +1010,7 @@ public OnPlayerEnterCheckpoint(playerid)
 						}
 						TextDrawSetString(EN_CheckPoint, iString);
 						TextDrawColor(timerCircleTD, 0xFF616133);
+						GangZoneFlashForAll(CPZone, GANGZONE_FLASH);
 						foreach(new i : Player)
 						{
 						    if(!Player[i][Spawned])
@@ -1187,7 +1188,9 @@ public OnPlayerLeaveCheckpoint(playerid)
 				    PlayersInCP = 0;
 				    CurrentCPTime = ConfigCPTime + 1;
 				    TextDrawHideForAll(EN_CheckPoint);
+				    TextDrawHideForAll(CheckpointWarningBox);
                     TextDrawColor(timerCircleTD, 0x00000033);
+                    GangZoneStopFlashForAll(CPZone);
 					foreach(new i : Player)
 					{
 					    if(!Player[i][Spawned])
@@ -7431,6 +7434,7 @@ YCMD:rr(playerid, params[], help)
 		HideRoundStats(i);
 	}
     TextDrawHideForAll(EN_CheckPoint);
+    TextDrawHideForAll(CheckpointWarningBox);
 	return 1;
 }
 
@@ -8103,6 +8107,7 @@ YCMD:end(playerid, params[], help)
 		HideRoundStats(i);
 	}
 	TextDrawHideForAll(EN_CheckPoint);
+	TextDrawHideForAll(CheckpointWarningBox);
 
  	ResetGunmenuSelections();
  	ResetBackupRequests();

@@ -739,7 +739,7 @@ LoadPlayerVariables(playerid)
 						GunmenuData[j][TimesSelected][team] --;
 					}
 				}
-				GangZoneShowForPlayer(playerid, ArenaZone, 0x95000099);
+				GangZoneShowForPlayer(playerid, ArenaZone, GANGZONE_ARENA);
 			}
 			if(RoundPaused == true) {
 				TogglePlayerControllable(playerid, 0);

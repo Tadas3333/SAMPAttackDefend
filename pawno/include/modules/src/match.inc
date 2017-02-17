@@ -386,6 +386,12 @@ public GameLoopCallback()
 
 							if(CurrentCPTime == 0)
 								return EndRound(0); // Attackers Win
+								
+							if(CurrentCPTime <= 10)
+							{
+							    if(CurrentCPTime%2 == 0)TextDrawShowForAll(CheckpointWarningBox);
+								else TextDrawHideForAll(CheckpointWarningBox);
+							}
 						}
 					}
 
@@ -1092,6 +1098,9 @@ PauseRound()
 		PauseStopWatchTimer = SetTimer("PauseStopWatch", 1000, true);
 	}
 
+	 // Make sure this bix red textdraw won't stay on players screen because it will get annoying
+	TextDrawShowForAll(CheckpointWarningBox);
+	
 	foreach(new i : PlayersInRound)
 	{
 		TogglePlayerControllable(i, 0);
@@ -1688,8 +1697,8 @@ public OnRCStart()
     new iString[32];
 	format(iString, sizeof(iString), "%sRC BF %s(~r~%d%s)", MAIN_TEXT_COLOUR, MAIN_TEXT_COLOUR, Current, MAIN_TEXT_COLOUR);
 
-	CPZone = GangZoneCreate(ACPSpawn[Current][0]-50, ACPSpawn[Current][1]-50, ACPSpawn[Current][0]+50, ACPSpawn[Current][1]+50);
-	GangZoneShowForAll(CPZone, 0xFF000044);
+	CPZone = GangZoneCreate(ACPSpawn[Current][0]-75, ACPSpawn[Current][1]-75, ACPSpawn[Current][0]+75, ACPSpawn[Current][1]+75);
+	GangZoneShowForAll(CPZone, GANGZONE_CP);
 
 	foreach(new i : Player)
 	{
@@ -1725,7 +1734,7 @@ public OnRCStart()
 	format(iString, sizeof(iString), "mapname RC: %d", Current);
 	SendRconCommand(iString);
 
-	GangZoneShowForAll(ArenaZone,0x95000099);
+	GangZoneShowForAll(ArenaZone,GANGZONE_ARENA);
 
 	ViewTimer = 4;
 	ViewRCForPlayers();
@@ -1956,7 +1965,7 @@ public OnArenaStart(ArenaID)
 	format(iString, sizeof(iString), "mapname Arena: %d", Current);
 	SendRconCommand(iString);
 
-	GangZoneShowForAll(ArenaZone,0x95000099);
+	GangZoneShowForAll(ArenaZone,GANGZONE_ARENA);
 
 	ViewTimer = 4;
 	ViewArenaForPlayers();
@@ -2277,8 +2286,8 @@ public OnBaseStart(BaseID)
 	ViewBaseCamPos[2] = BCPSpawn[Current][2];
 	ViewTimer = 9;
 
-	CPZone = GangZoneCreate(BCPSpawn[Current][0]-50, BCPSpawn[Current][1]-50, BCPSpawn[Current][0]+50, BCPSpawn[Current][1]+50);
-	GangZoneShowForAll(CPZone, 0xFF000044);
+	CPZone = GangZoneCreate(BCPSpawn[Current][0]-75, BCPSpawn[Current][1]-75, BCPSpawn[Current][0]+75, BCPSpawn[Current][1]+75);
+	GangZoneShowForAll(CPZone, GANGZONE_CP);
 
 	foreach(new i : Player) {
 		Player[i][LastVehicle] = -1;
@@ -2702,6 +2711,7 @@ EndRound(WinID) //WinID: 0 = CP, 1 = RoundTime, 2 = NoAttackersLeft, 3 = NoDefen
 	new iString[256], TopString[3][128];
 
 	TextDrawHideForAll(EN_CheckPoint);
+	TextDrawHideForAll(CheckpointWarningBox);
 
 	new winnerid = -1;
 	if(WinID == 0 || WinID == 3 ||  WinID == 5)

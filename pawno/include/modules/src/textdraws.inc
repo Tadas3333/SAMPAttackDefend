@@ -228,6 +228,19 @@ LoadTextDraws()
 	TextDrawColor(EN_CheckPoint, -1);
 	TextDrawSetOutline(EN_CheckPoint, 1);
 	TextDrawSetProportional(EN_CheckPoint, 1);
+	
+	CheckpointWarningBox = TextDrawCreate(320.000000, 0.000000, "_");
+	TextDrawAlignment(CheckpointWarningBox, 2);
+	TextDrawBackgroundColor(CheckpointWarningBox, 255);
+	TextDrawFont(CheckpointWarningBox, 1);
+	TextDrawLetterSize(CheckpointWarningBox, 0.500000, 55.000000);
+	TextDrawColor(CheckpointWarningBox, -1);
+	TextDrawSetOutline(CheckpointWarningBox, 0);
+	TextDrawSetProportional(CheckpointWarningBox, 1);
+	TextDrawSetShadow(CheckpointWarningBox, 1);
+	TextDrawUseBox(CheckpointWarningBox, 1);
+	TextDrawBoxColor(CheckpointWarningBox, 0xFF222220);
+	TextDrawTextSize(CheckpointWarningBox, 0.000000, 640.000000);
 
 //  - End of Round Textdraw -
 
@@ -774,7 +787,7 @@ RoundTextdrawsCreate()
 	TextDrawSetOutline(AttDef_RoundTimer, 1);
 	TextDrawSetProportional(AttDef_RoundTimer, 1);
 	
-    AttDef_ModernRoundStats[0] = TextDrawCreate(513.540893, 374.283630, "-");
+    AttDef_ModernRoundStats[0] = TextDrawCreate(513.540893, 375.0, "-");
 	TextDrawBackgroundColor(AttDef_ModernRoundStats[0], 0x000000AA);
 	TextDrawFont(AttDef_ModernRoundStats[0], 1);
 	TextDrawLetterSize(AttDef_ModernRoundStats[0], -28.081052, 11.987506);

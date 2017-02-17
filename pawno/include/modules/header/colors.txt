@@ -15,6 +15,12 @@
 #define ATTACKER_TEAM_LEADER 	0xFF004288  // Pink-Red color
 #define DEFENDER_TEAM_LEADER 	0x00A8FF88  // Aqua color
 
+// GangZone colors
+#define GANGZONE_ARENA          0x95000099  // Red
+#define GANGZONE_CPARENA        0x00000033  // Black Transperent
+#define GANGZONE_CP             0x4444FF99  // Blue
+#define GANGZONE_FLASH          0xFF222299  // Flash color when CP is being taken (Red)
+
 // Client message color
 #define COL_PRIM    		"{01A2F8}" 	// Primary color used in client messages
 #define COL_SEC     		"{FFFFFF}" 	// Secondary color used in client messages
