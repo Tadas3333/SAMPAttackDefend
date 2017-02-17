@@ -12,7 +12,7 @@
 #define REFEREE_COLOR 			0xFFFF0055 	// Bright Yellow color
 #define ATTACKER_ASKING_HELP    0xFF777788 	// Orange red color
 #define DEFENDER_ASKING_HELP    0x7777FF88 	// Light blue color
-#define ATTACKER_TEAM_LEADER 	0xFF004288  // Pink-Red color
+#define ATTACKER_TEAM_LEADER 	0xFF00DE88  // Pink color
 #define DEFENDER_TEAM_LEADER 	0x00A8FF88  // Aqua color
 
 // GangZone colors

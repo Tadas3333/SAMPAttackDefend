@@ -179,7 +179,7 @@ CheckTeamElimination()
 		}
 	}
 	
-	#if defined ROUND_NEVER_END
+	#if !defined ROUND_NEVER_END
 	// If both teams have no players
 	if(PlayersAlive[ATTACKER] == 0 && PlayersAlive[DEFENDER] == 0)
 	{
@@ -259,7 +259,7 @@ UpdateTeamPlayerCount(teamid, bool:elimination_check, exception = -1)
 	TextDrawSetString(AttDef_RoundStats, str);
 
 	// If we're asked to check team/round elimination
-	#if defined ROUND_NEVER_END
+	#if !defined ROUND_NEVER_END
 	if(elimination_check)
 	{
 		// If round is not paused
@@ -1099,7 +1099,7 @@ PauseRound()
 	}
 
 	 // Make sure this bix red textdraw won't stay on players screen because it will get annoying
-	TextDrawShowForAll(CheckpointWarningBox);
+	TextDrawHideForAll(CheckpointWarningBox);
 	
 	foreach(new i : PlayersInRound)
 	{
@@ -1175,7 +1175,7 @@ PlayerNoLeadTeam(playerid)
 						SendClientMessage(i, -1, sprintf("%s%s {FFFFFF}is no longer leading the team.", TextColor[team], Player[playerid][Name]));
 					}
 				}
-				EndTeamBackupRequest(playerid);
+				EndLeaderRequests(playerid);
 			}
 			case DEFENDER:
 			{
@@ -1186,7 +1186,7 @@ PlayerNoLeadTeam(playerid)
 						SendClientMessage(i, -1, sprintf("%s%s {FFFFFF}is no longer leading the team.", TextColor[team], Player[playerid][Name]));
 					}
 				}
-				EndTeamBackupRequest(playerid);
+				EndLeaderRequests(playerid);
 			}
 		}
 	}
@@ -1250,6 +1250,26 @@ public EndTeamBackupRequest(playerid)
 		ColorFix(playerid);
 		RadarFix(playerid);
 	}
+	
+	UpdatePlayerTeamBar(playerid);
+	return 1;
+}
+
+EndLeaderRequests(playerid)
+{
+	new iconid = (Player[playerid][Team] == DEFENDER) ? DEFENDER_BACKUP_ICON : ATTACKER_BACKUP_ICON;
+	
+	new team = Player[playerid][Team];
+	TeamHelp[team] = false;
+	Player[playerid][AskingForHelp] = false;
+
+	foreach(new i : Player)
+	{
+		RemovePlayerMapIcon(i, iconid);
+	}
+
+	ColorFix(playerid);
+	RadarFix(playerid);
 	
 	UpdatePlayerTeamBar(playerid);
 	return 1;
