@@ -589,7 +589,6 @@ PlayerVoteEndMatch(playerid)
 					TextDrawHideForAll(PauseTD);
 
 				RoundPaused = false;
-				FallProtection = false;
 				TeamCapturingCP = NON;
 				PlayersInCP = 0;
 

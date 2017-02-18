@@ -32,7 +32,6 @@ new bool:RoundPaused 	= false; // True means the round is paused. False means it
 new bool:RoundUnpausing = false; // True means the round is being unpaused at the moment. False means it's running or still paused.
 new bool:WarMode 		= false; // If match/war mode is on
 new bool:MatchEnded 	= false; // This is set to true when a match is done
-new bool:FallProtection = false; // True means players HP is protected against illegal damages. False means not.
 new bool:TeamHelp[MAX_TEAMS]; // Whether a team is asking for help or not
 new bool:IsBasePlayed[MAX_BASES]; // Whether a base is played or not
 new bool:IsArenaPlayed[MAX_ARENAS]; // Whether an arena is played or not

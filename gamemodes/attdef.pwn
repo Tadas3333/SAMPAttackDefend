@@ -3145,6 +3145,26 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 					}
 				    ShowConfigDialog(playerid);
 				}
+                case 28:
+				{
+				    new iString[144];
+				    switch(ScreenFlashing)
+				    {
+						case false:
+						{
+						    format(iString, sizeof(iString), "{FFFFFF}%s "COL_PRIM"has {FFFFFF}enabled "COL_PRIM"Screen Flashing{FFFFFF}.", Player[playerid][Name]);
+							SendClientMessageToAll(-1, iString);
+							ScreenFlashing = true;
+						}
+						case true:
+						{
+						    format(iString, sizeof(iString), "{FFFFFF}%s "COL_PRIM"has {FFFFFF}disabled "COL_PRIM"Screen Flashing{FFFFFF}.", Player[playerid][Name]);
+							SendClientMessageToAll(-1, iString);
+							ScreenFlashing = false;
+						}
+					}
+				    ShowConfigDialog(playerid);
+				}
 	        }
 	    }
 	    return 1;
@@ -8149,7 +8169,6 @@ YCMD:end(playerid, params[], help)
 	GangZoneDestroy(ArenaZone);
 
 	RoundPaused = false;
-	FallProtection = false;
 	TeamCapturingCP = NON;
     PlayersInCP = 0;
 

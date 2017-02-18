@@ -14,7 +14,7 @@
 // Functions
 ShowConfigDialog(playerid) {
 
-	new string[1771];
+	new string[1800];
 
 	string = "";
 
@@ -145,6 +145,11 @@ ShowConfigDialog(playerid) {
 		strcat(string, "\n{66FF66}Sync Abuse");
 	else
 		strcat(string, "\n{FF6666}Sync Abuse");
+		
+	if(ScreenFlashing == true)
+		strcat(string, "\n{66FF66}CP Screen Flashing");
+	else
+		strcat(string, "\n{FF6666}CP Screen Flashing");
 
     ShowPlayerDialog(playerid, DIALOG_CONFIG, DIALOG_STYLE_LIST, ""COL_PRIM"Config Settings", string, "OK", "Cancel");
     return 1;
@@ -290,9 +295,10 @@ LoadConfig()
 
 	db_free_result(res);
 	
-	// This one is not loaded from the database, because there are some major gamemode configuration changes coming.
-	// And users shouldn't delete their database only to implement this feature.
+	// These ones are not loaded from the database, because there are some major gamemode configuration changes coming.
+	// And users shouldn't delete their database only to implement these features.
 	SyncAbuse = true;
+	ScreenFlashing = true;
 
 	printf("Server Config Loaded.");
 }

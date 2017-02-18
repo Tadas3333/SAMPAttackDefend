@@ -2,7 +2,7 @@
 		Gamemode core
 */
 
-new	const Float:GM_VERSION		= 		1.08;
+new	const Float:GM_VERSION		= 		1.081;
 new const Float:DB_VERSION      =       1.0; // Lowest database version supported.
 #define 		GM_NAME				"Att-Def"
 new 			GM_WEBSITE[50]	=	"github.com/beijind/SAMPAttackDefend";

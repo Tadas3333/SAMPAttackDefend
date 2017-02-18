@@ -389,7 +389,7 @@ public GameLoopCallback()
 								
 							if(CurrentCPTime <= 10)
 							{
-							    if(CurrentCPTime%2 == 0)TextDrawShowForAll(CheckpointWarningBox);
+							    if(CurrentCPTime%2 == 0 && ScreenFlashing)TextDrawShowForAll(CheckpointWarningBox);
 								else TextDrawHideForAll(CheckpointWarningBox);
 							}
 						}
@@ -1894,7 +1894,6 @@ SpawnPlayersInRC()
 		UpdateTeamHP(DEFENDER);
 		UpdateTeamNamesTextdraw();
 		StartGameLoop();
-		FallProtection = true;
 		RadarFix();
 		foreach(new i : PlayersInRound)
 		{
@@ -2140,7 +2139,6 @@ SpawnPlayersInArena()
 		UpdateTeamHP(DEFENDER);
 		UpdateTeamNamesTextdraw();
 		StartGameLoop();
-		FallProtection = true;
 		RadarFix();
 		#if defined _league_included
 		if(LeagueAllowed)
@@ -2562,7 +2560,6 @@ SpawnPlayersInBase()
 		UpdateTeamHP(DEFENDER);
 		UpdateTeamNamesTextdraw();
 		StartGameLoop();
-		FallProtection = true;
 		RadarFix();
 		#if defined _league_included
 		if(LeagueAllowed)
@@ -2713,7 +2710,6 @@ EndRound(WinID) //WinID: 0 = CP, 1 = RoundTime, 2 = NoAttackersLeft, 3 = NoDefen
 	TeamCapturingCP = NON;
     PlayersInCP = 0;
     MatchEnded = false;
-	FallProtection = false;
     RoundPaused = false;
     RoundUnpausing = false;
 

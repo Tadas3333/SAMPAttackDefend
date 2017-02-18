@@ -214,30 +214,12 @@ IsLegalHit(playerid, issuerid, Float:amount, weaponid)
 	    	SetFakeHealthArmour(playerid);
 	    	return 0;
 	 	}
-	    if(weaponid == 49 || weaponid == 50 || (weaponid == 54 && Player[playerid][pArmour] > 0) || (weaponid == 54 && amount <= 10))
+	    if(weaponid == 49 || weaponid == 50 || (weaponid == 54 && Player[playerid][pArmour] > 0 && SyncAbuse) || (weaponid == 54 && amount <= 10))
 	    {
 	        /* Cancel damage done by vehicle, explosion, heli-blades and collision (equal to or less than 10 only) */
 	    	SetFakeHealthArmour(playerid);
 	        return 0;
 	    }
-	    if(FallProtection == true) // If round fall protection is on and this player is in round
-		{
-			if(weaponid == 54) // If it's a collision (fell from a very high building?)
-			{
-			    SetFakeHealthArmour(playerid);
-		    	return 0;
-			}
-			else // If it's not a collision, then real fire is going on maybe; check if we should turn off protection or not
-			{
-			    if(issuerid != INVALID_PLAYER_ID) // If someone started firing real shots
-				{
-					if(Player[issuerid][Team] != Player[playerid][Team]) // They're not at the same time
-					{
-			    		FallProtection = false; // Turn fall protection off
-					}
-				}
-			}
-		}
 		#if defined _league_included
 		if(LeagueMode)
 		{
@@ -342,19 +324,7 @@ SetHP(playerid, amount)
 
 	if(PlayerInterface[playerid][INTERFACE_HP])
 	{
-		if(FallProtection == false)
-		{
-			PlayerTextDrawSetString(playerid, HPTextDraw_TD[playerid], sprintf("%s%d", MAIN_TEXT_COLOUR, Player[playerid][pHealth]));
-		}
-		else
-		{
-			if(Player[playerid][Playing] == true)
-				PlayerTextDrawSetString(playerid, HPTextDraw_TD[playerid], sprintf("%sProtected", MAIN_TEXT_COLOUR));
-			else
-			{
-				PlayerTextDrawSetString(playerid, HPTextDraw_TD[playerid], sprintf("%s%d", MAIN_TEXT_COLOUR, Player[playerid][pHealth]));
-			}
-		}
+		PlayerTextDrawSetString(playerid, HPTextDraw_TD[playerid], sprintf("%s%d", MAIN_TEXT_COLOUR, Player[playerid][pHealth]));
 	}
 	return 1;
 }
