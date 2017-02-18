@@ -3768,7 +3768,7 @@ YCMD:changelog(playerid, params[], help)
 	    SendCommandHelpMessage(playerid, "display a list of gamemode updates");
 	    return 1;
 	}
-	HTTP(playerid, HTTP_GET, "infinite-gaming.ml/khk/bulletproof/api/changelog.php", "", "ShowPlayerChangelog");
+	//HTTP(playerid, HTTP_GET, "infinite-gaming.ml/khk/bulletproof/api/changelog.php", "", "ShowPlayerChangelog");
 	return 1;
 }
 
