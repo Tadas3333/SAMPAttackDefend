@@ -158,6 +158,8 @@ ShowConfigDialog(playerid) {
 LoadConfig()
 {
 	new iString[128];
+	new Float:DBVersion;
+	new Float:DBWasUpdated = 0.00;
     new DBResult:res = db_query(sqliteconnection, "SELECT * FROM Configs");
     Skin[NON] = 0;
 
@@ -273,8 +275,8 @@ LoadConfig()
     AutoRoundStarter = (strval(iString) == 1 ? true : false);
     db_next_row(res);
 
-	db_get_field_assoc(res, "Value", iString, sizeof(iString)); // GMVersion
-    CorrectDatabase = (floatstr(iString) >= DB_VERSION ? true : false);
+	db_get_field_assoc(res, "Value", iString, sizeof(iString)); // Database Version
+	DBVersion = floatstr(iString);
     db_next_row(res);
 
 	db_get_field_assoc(res, "Value", iString, sizeof(iString)); // Game speed
@@ -292,13 +294,39 @@ LoadConfig()
 	db_get_field_assoc(res, "Value", iString, sizeof(iString)); // VehicleHealthTextdraw
     VehicleHealthTextdraw = (strval(iString) == 1 ? true : false);
     db_next_row(res);
-
+	
+	///////////////////////////////////////////////////////////////////////////////////////////
+	
+	if(DBVersion >= 1.12)
+	{
+		db_get_field_assoc(res, "Value", iString, sizeof(iString));
+        SyncAbuse = (strval(iString) == 1 ? true : false);
+        db_next_row(res);
+		
+		db_get_field_assoc(res, "Value", iString, sizeof(iString));
+        ScreenFlashing = (strval(iString) == 1 ? true : false);
+        db_next_row(res);
+	}
+	else
+	{
+	    db_query(sqliteconnection, "INSERT INTO Configs (Option, Value) VALUES('SyncAbuse', 1)");
+		db_query(sqliteconnection, "INSERT INTO Configs (Option, Value) VALUES('ScreenFlash', 1)");
+		
+		SyncAbuse = true;
+	    ScreenFlashing = true;
+		DBWasUpdated = 1.12;
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////
 	db_free_result(res);
 	
-	// These ones are not loaded from the database, because there are some major gamemode configuration changes coming.
-	// And users shouldn't delete their database only to implement these features.
-	SyncAbuse = true;
-	ScreenFlashing = true;
-
-	printf("Server Config Loaded.");
+	if(DBWasUpdated > 0.00)
+	{
+	    db_query(sqliteconnection, sprintf("UPDATE Configs SET Value = %.02f WHERE Option = 'GMVersion'", DBWasUpdated));
+	    printf("Server Config Loaded. Database Was Updated To %0.2f Version.", DBWasUpdated);
+	}
+	else
+	{
+	    printf("Server Config Loaded. Current Database Version: %.02f",DBVersion);
+	}
 }
