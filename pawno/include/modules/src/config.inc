@@ -323,7 +323,7 @@ LoadConfig()
 	if(DBWasUpdated > 0.00)
 	{
 	    db_query(sqliteconnection, sprintf("UPDATE Configs SET Value = %.02f WHERE Option = 'GMVersion'", DBWasUpdated));
-	    printf("Server Config Loaded. Database Was Updated To %0.2f Version.", DBWasUpdated);
+	    printf("Server Config Loaded. Database Was Updated To Version %0.2f.", DBWasUpdated);
 	}
 	else
 	{

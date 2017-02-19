@@ -239,7 +239,7 @@ LoadTextDraws()
 	TextDrawSetProportional(CheckpointWarningBox, 1);
 	TextDrawSetShadow(CheckpointWarningBox, 1);
 	TextDrawUseBox(CheckpointWarningBox, 1);
-	TextDrawBoxColor(CheckpointWarningBox, 0xFF222220);
+	TextDrawBoxColor(CheckpointWarningBox, 0xFF222214);
 	TextDrawTextSize(CheckpointWarningBox, 0.000000, 640.000000);
 
 //  - End of Round Textdraw -
