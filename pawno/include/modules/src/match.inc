@@ -2712,6 +2712,7 @@ EndRound(WinID) //WinID: 0 = CP, 1 = RoundTime, 2 = NoAttackersLeft, 3 = NoDefen
     MatchEnded = false;
     RoundPaused = false;
     RoundUnpausing = false;
+	LastMatchEndTime = gettime();
 
 	PlayersAlive[ATTACKER] = 0;
 	PlayersAlive[DEFENDER] = 0;

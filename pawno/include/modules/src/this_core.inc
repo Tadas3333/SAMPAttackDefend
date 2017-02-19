@@ -71,6 +71,7 @@ InitScriptSecondarySettings()
     ServerLastPlayed = -1;
     ServerLastPlayedType = -1;
     Current = -1;
+	LastMatchEndTime = 0;
 
 	// Settings
 	FixGamemodeText(); // Text that appears on 'Mode' column when you click on a server in samp.exe

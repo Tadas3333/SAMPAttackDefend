@@ -9483,7 +9483,7 @@ public OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 
     if(PRESSED(4)) // key fire
 	{
-	    if(Player[playerid][TextDrawOnScreen])
+	    if(Player[playerid][TextDrawOnScreen] && (LastMatchEndTime+2)-gettime() <= 0)
 	    {
 	    	HideEndRoundTextDraw(playerid);
 	    	return 1;
