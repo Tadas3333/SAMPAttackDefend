@@ -1175,6 +1175,8 @@ UpdateTeamNamesTextdraw()
 
 ModernTextDrawFlash(team)
 {
+    if(Current == -1)return 1;
+	
 	switch(team)
 	{
 	    case ATTACKER:
@@ -1207,6 +1209,8 @@ ModernTextDrawFlash(team)
 
 StopModernTextDrawFlash(team)
 {
+    if(Current == -1)return 1;
+	
 	switch(team)
 	{
 	    case ATTACKER:
