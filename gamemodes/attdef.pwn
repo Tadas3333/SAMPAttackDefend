@@ -844,7 +844,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 	{
 	    case PLAYER_STATE_DRIVER:
 		{
-            if(Player[playerid][Team] == DEFENDER && Player[playerid][Playing] == true)
+            if(Player[playerid][Team] == DEFENDER && Player[playerid][Playing] == true && !DefendersWithVehicles)
 			{
 				new Float:defPos[3];
 				GetPlayerPos(playerid, defPos[0], defPos[1], defPos[2]);
@@ -871,7 +871,7 @@ public OnPlayerStateChange(playerid, newstate, oldstate)
 		}
 		case PLAYER_STATE_PASSENGER:
 		{
-			if(Player[playerid][Team] == DEFENDER && Player[playerid][Playing] == true)
+			if(Player[playerid][Team] == DEFENDER && Player[playerid][Playing] == true && !DefendersWithVehicles)
 			{
 				new Float:defPos[3];
 				GetPlayerPos(playerid, defPos[0], defPos[1], defPos[2]);
@@ -1537,11 +1537,13 @@ HandlePlayerDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 					TextDrawSetString(AttHpLose, str);
 
 					TempDamage[ATTACKER] += rounded_amount;
-					format(str, sizeof(str), "~r~~h~-%d", TempDamage[ATTACKER]);
+					format(str, sizeof(str), "~r~-%d", TempDamage[ATTACKER]);
 					TextDrawSetString(TeamHpLose[0], str);
+					
+					ModernTextDrawFlash(ATTACKER);
 
 					KillTimer(AttHpTimer);
-					AttHpTimer = SetTimer("HideHpTextForAtt", 3000, false);
+					AttHpTimer = SetTimer("HideHpTextForAtt", 2500, false);
 				}
 				case DEFENDER:
 				{
@@ -1550,11 +1552,13 @@ HandlePlayerDamage(playerid, issuerid, Float:amount, weaponid, bodypart)
 					TextDrawSetString(DefHpLose, str);
 
 				    TempDamage[DEFENDER] += rounded_amount;
-					format(str,sizeof(str), "~b~~h~-%d", TempDamage[DEFENDER]);
+					format(str,sizeof(str), "~b~-%d", TempDamage[DEFENDER]);
 					TextDrawSetString(TeamHpLose[1], str);
+					
+					ModernTextDrawFlash(DEFENDER);
 
 			        KillTimer(DefHpTimer);
-			        DefHpTimer = SetTimer("HideHpTextForDef", 3000, false);
+			        DefHpTimer = SetTimer("HideHpTextForDef", 2500, false);
 				}
 		    }
 		}
@@ -3138,6 +3142,8 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							SyncAbuse = false;
 						}
 					}
+					format(iString, sizeof(iString), "UPDATE Configs SET Value = %d WHERE Option = 'SyncAbuse'", (SyncAbuse == false ? 0 : 1));
+				    db_free_result(db_query(sqliteconnection, iString));
 				    ShowConfigDialog(playerid);
 				}
                 case 28:
@@ -3158,6 +3164,30 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 							ScreenFlashing = false;
 						}
 					}
+					format(iString, sizeof(iString), "UPDATE Configs SET Value = %d WHERE Option = 'ScreenFlash'", (ScreenFlashing == false ? 0 : 1));
+				    db_free_result(db_query(sqliteconnection, iString));
+				    ShowConfigDialog(playerid);
+				}
+                case 29:
+				{
+				    new iString[144];
+				    switch(DefendersWithVehicles)
+				    {
+						case false:
+						{
+						    format(iString, sizeof(iString), "{FFFFFF}%s "COL_PRIM"has {FFFFFF}allowed "COL_PRIM"defenders to spawn vehicles{FFFFFF}.", Player[playerid][Name]);
+							SendClientMessageToAll(-1, iString);
+							DefendersWithVehicles = true;
+						}
+						case true:
+						{
+						    format(iString, sizeof(iString), "{FFFFFF}%s "COL_PRIM"has {FFFFFF}disallowed "COL_PRIM"defenders to spawn vehicles{FFFFFF}.", Player[playerid][Name]);
+							SendClientMessageToAll(-1, iString);
+							DefendersWithVehicles = false;
+						}
+					}
+					format(iString, sizeof(iString), "UPDATE Configs SET Value = %d WHERE Option = 'DefVehicles'", (DefendersWithVehicles == false ? 0 : 1));
+				    db_free_result(db_query(sqliteconnection, iString));
 				    ShowConfigDialog(playerid);
 				}
 	        }
@@ -8786,7 +8816,7 @@ YCMD:v(playerid, params[], help)
 	if(RoundPaused == true && Player[playerid][Playing] == true) return 1;
 	if(Player[playerid][InDM] == true) return SendErrorMessage(playerid,"You can't spawn vehicle in DM.");
     if(Player[playerid][InDuel] == true) return SendErrorMessage(playerid,"Can't use this command during duel.");
-	if(Player[playerid][Playing] == true && Player[playerid][TimesSpawned] >= 3) return SendErrorMessage(playerid,"You have spawned the maximum number of vehicles.");
+	if(Player[playerid][Playing] == true && Player[playerid][TimesSpawned] >= 2) return SendErrorMessage(playerid,"You have spawned the maximum number of vehicles.");
 	if(IsPlayerInAnyVehicle(playerid) && GetPlayerState(playerid) != PLAYER_STATE_DRIVER) return SendErrorMessage(playerid,"Can't spawn a vehicle while you are not the driver.");
 
    	new veh;
@@ -8811,10 +8841,19 @@ YCMD:v(playerid, params[], help)
 	GetPlayerFacingAngle(playerid, Pos[3]);
 
 	if(Player[playerid][Playing] == true) {
-		if(Player[playerid][Team] == DEFENDER || Player[playerid][Team] == REFEREE) return SendErrorMessage(playerid,"Only attackers can spawn vehicle.");
+		if((Player[playerid][Team] == DEFENDER && !DefendersWithVehicles) || Player[playerid][Team] == REFEREE) return SendErrorMessage(playerid,"Only attackers can spawn vehicle.");
         if(BInterior[Current] != 0) return SendErrorMessage(playerid,"You can't spawn vehicle in interior base.");
-		if(Pos[0] > BAttackerSpawn[Current][0] + 100 || Pos[0] < BAttackerSpawn[Current][0] - 100 || Pos[1] > BAttackerSpawn[Current][1] + 100 || Pos[1] < BAttackerSpawn[Current][1] - 100) {
+        
+        if(Player[playerid][Team] == DEFENDER && ElapsedTime >= 30){
+            return SendErrorMessage(playerid,"You can't spawn vehicles anymore (30 seconds passed).");
+		}
+        
+		if(Player[playerid][Team] == ATTACKER && (Pos[0] > BAttackerSpawn[Current][0] + 100 || Pos[0] < BAttackerSpawn[Current][0] - 100 || Pos[1] > BAttackerSpawn[Current][1] + 100 || Pos[1] < BAttackerSpawn[Current][1] - 100)) {
 			return SendErrorMessage(playerid,"You are too far from attacker spawn."); //If attacker is too far away from his spawn.
+		}
+		
+ 		if(Player[playerid][Team] == DEFENDER && (Pos[0] > BDefenderSpawn[Current][0] + 100 || Pos[0] < BDefenderSpawn[Current][0] - 100 || Pos[1] > BDefenderSpawn[Current][1] + 100 || Pos[1] < BDefenderSpawn[Current][1] - 100)) {
+			return SendErrorMessage(playerid,"You are too far from attacker spawn."); //If defender is too far away from his spawn.
 		}
 	}
 

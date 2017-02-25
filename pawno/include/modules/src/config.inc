@@ -14,7 +14,7 @@
 // Functions
 ShowConfigDialog(playerid) {
 
-	new string[1800];
+	new string[1840];
 
 	string = "";
 
@@ -150,6 +150,11 @@ ShowConfigDialog(playerid) {
 		strcat(string, "\n{66FF66}CP Screen Flashing");
 	else
 		strcat(string, "\n{FF6666}CP Screen Flashing");
+		
+	if(DefendersWithVehicles == true)
+		strcat(string, "\n{66FF66}Defenders Can Spawn Vehicles");
+	else
+		strcat(string, "\n{FF6666}Defenders Can Spawn Vehicles");
 
     ShowPlayerDialog(playerid, DIALOG_CONFIG, DIALOG_STYLE_LIST, ""COL_PRIM"Config Settings", string, "OK", "Cancel");
     return 1;
@@ -159,7 +164,7 @@ LoadConfig()
 {
 	new iString[128];
 	new Float:DBVersion;
-	new Float:DBWasUpdated = 0.00;
+	new Float:DBWasUpdated = 0.0;
     new DBResult:res = db_query(sqliteconnection, "SELECT * FROM Configs");
     Skin[NON] = 0;
 
@@ -297,6 +302,11 @@ LoadConfig()
 	
 	///////////////////////////////////////////////////////////////////////////////////////////
 	
+	/*
+	    Important Notice: After 1.12 version, it was decided to use database version different from gamemode version,
+		because of float assignation problems. For ex. assigning DBWasUpdated to 1.16 returns 1.159999.
+	*/
+	
 	if(DBVersion >= 1.12)
 	{
 		db_get_field_assoc(res, "Value", iString, sizeof(iString));
@@ -309,12 +319,26 @@ LoadConfig()
 	}
 	else
 	{
-	    db_query(sqliteconnection, "INSERT INTO Configs (Option, Value) VALUES('SyncAbuse', 1)");
-		db_query(sqliteconnection, "INSERT INTO Configs (Option, Value) VALUES('ScreenFlash', 1)");
+	    db_free_result(db_query(sqliteconnection, "INSERT INTO Configs (Option, Value) VALUES('SyncAbuse', 1)"));
+		db_free_result(db_query(sqliteconnection, "INSERT INTO Configs (Option, Value) VALUES('ScreenFlash', 1)"));
 		
 		SyncAbuse = true;
 	    ScreenFlashing = true;
 		DBWasUpdated = 1.12;
+	}
+	
+	if(DBVersion >= 2.0)
+	{
+		db_get_field_assoc(res, "Value", iString, sizeof(iString));
+        DefendersWithVehicles = (strval(iString) == 1 ? true : false);
+        db_next_row(res);
+	}
+	else
+	{
+	    db_free_result(db_query(sqliteconnection, "INSERT INTO Configs (Option, Value) VALUES('DefVehicles', 0)"));
+		
+		DefendersWithVehicles = false;
+		DBWasUpdated = 2.0;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////
@@ -323,7 +347,7 @@ LoadConfig()
 	if(DBWasUpdated > 0.00)
 	{
 	    db_query(sqliteconnection, sprintf("UPDATE Configs SET Value = %.02f WHERE Option = 'GMVersion'", DBWasUpdated));
-	    printf("Server Config Loaded. Database Was Updated To Version %0.2f.", DBWasUpdated);
+	    printf("Server Config Loaded. Database Was Updated To Version %.02f.", DBWasUpdated);
 	}
 	else
 	{

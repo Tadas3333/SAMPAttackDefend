@@ -35,6 +35,7 @@ new bool:SightseeingInClassSelection = false;
 new bool:VehicleHealthTextdraw = false;
 new bool:SyncAbuse = true;
 new bool:ScreenFlashing = true;
+new bool:DefendersWithVehicles = false;
 
 new RoundHP = 100, RoundAR = 100;
 
