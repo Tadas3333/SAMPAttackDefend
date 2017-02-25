@@ -93,14 +93,16 @@ public OnGameModeExit()
 public OnPlayerConnect(playerid)
 {
     // Check if version is out-dated and if server owners are forced to use newest version
-	if(VersionReport == VERSION_IS_BEHIND && ForceUserToNewestVersion == true)
+	if(VersionReport == VERSION_IS_BEHIND)
 	{
 	    SendClientMessage(playerid, -1, ""COL_PRIM"Version checker: {FFFFFF}the version used in this server is out-dated.");
     	SendClientMessage(playerid, -1, sprintf(""COL_PRIM"Visit {FFFFFF}%s "COL_PRIM"to get the latest version", GM_WEBSITE));
 		SendClientMessage(playerid, -1, sprintf(""COL_PRIM"Server version: {FFFFFF}%.2f "COL_PRIM"| Newest version: {FFFFFF}%.2f", GM_VERSION, LatestVersion));
-        SetTimerEx("OnPlayerKicked", 500, false, "i", playerid);
-        CallLocalFunction("OnPlayerCommandText", "ds", playerid, "/changelog");
-		return 0;
+        if(ForceUserToNewestVersion)
+		{
+		    SetTimerEx("OnPlayerKicked", 500, false, "i", playerid);
+		    return 0;
+		}
 	}
 	// If database is still loading, temporarily disable the player from connecting
     if(DatabaseLoading == true)
