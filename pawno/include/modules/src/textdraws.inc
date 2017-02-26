@@ -1323,6 +1323,8 @@ ResetRoundTextDraws()
 	TextDrawSetString(AttDef_ModernRoundStats[5], "_");
 	TextDrawSetString(AttDef_ModernRoundStats[6], "_");
 	TextDrawSetString(AttDef_ModernRoundStats[7], "_");
+	TextDrawBackgroundColor(AttDef_ModernRoundStats[1], 0x90111120);
+	TextDrawBackgroundColor(AttDef_ModernRoundStats[2], 0x22222020);
 	
 	/**** Bulletproof Gamemode Textdraws ****/
 	TextDrawColor(timerCircleTD, 0x00000033);

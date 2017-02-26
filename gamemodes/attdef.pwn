@@ -3177,13 +3177,13 @@ public OnDialogResponse(playerid, dialogid, response, listitem, inputtext[])
 				    {
 						case false:
 						{
-						    format(iString, sizeof(iString), "{FFFFFF}%s "COL_PRIM"has {FFFFFF}allowed "COL_PRIM"defenders to spawn vehicles{FFFFFF}.", Player[playerid][Name]);
+						    format(iString, sizeof(iString), "{FFFFFF}%s "COL_PRIM"has {FFFFFF}allowed "COL_PRIM"defenders to use vehicles{FFFFFF}.", Player[playerid][Name]);
 							SendClientMessageToAll(-1, iString);
 							DefendersWithVehicles = true;
 						}
 						case true:
 						{
-						    format(iString, sizeof(iString), "{FFFFFF}%s "COL_PRIM"has {FFFFFF}disallowed "COL_PRIM"defenders to spawn vehicles{FFFFFF}.", Player[playerid][Name]);
+						    format(iString, sizeof(iString), "{FFFFFF}%s "COL_PRIM"has {FFFFFF}disallowed "COL_PRIM"defenders to use vehicles{FFFFFF}.", Player[playerid][Name]);
 							SendClientMessageToAll(-1, iString);
 							DefendersWithVehicles = false;
 						}
@@ -8843,19 +8843,11 @@ YCMD:v(playerid, params[], help)
 	GetPlayerFacingAngle(playerid, Pos[3]);
 
 	if(Player[playerid][Playing] == true) {
-		if((Player[playerid][Team] == DEFENDER && !DefendersWithVehicles) || Player[playerid][Team] == REFEREE) return SendErrorMessage(playerid,"Only attackers can spawn vehicle.");
+		if(Player[playerid][Team] == DEFENDER || Player[playerid][Team] == REFEREE) return SendErrorMessage(playerid,"Only attackers can spawn vehicle.");
         if(BInterior[Current] != 0) return SendErrorMessage(playerid,"You can't spawn vehicle in interior base.");
-        
-        if(Player[playerid][Team] == DEFENDER && ElapsedTime >= 30){
-            return SendErrorMessage(playerid,"You can't spawn vehicles anymore (30 seconds passed).");
-		}
-        
+		
 		if(Player[playerid][Team] == ATTACKER && (Pos[0] > BAttackerSpawn[Current][0] + 100 || Pos[0] < BAttackerSpawn[Current][0] - 100 || Pos[1] > BAttackerSpawn[Current][1] + 100 || Pos[1] < BAttackerSpawn[Current][1] - 100)) {
 			return SendErrorMessage(playerid,"You are too far from attacker spawn."); //If attacker is too far away from his spawn.
-		}
-		
- 		if(Player[playerid][Team] == DEFENDER && (Pos[0] > BDefenderSpawn[Current][0] + 100 || Pos[0] < BDefenderSpawn[Current][0] - 100 || Pos[1] > BDefenderSpawn[Current][1] + 100 || Pos[1] < BDefenderSpawn[Current][1] - 100)) {
-			return SendErrorMessage(playerid,"You are too far from attacker spawn."); //If defender is too far away from his spawn.
 		}
 	}
 

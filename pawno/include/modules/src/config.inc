@@ -152,9 +152,9 @@ ShowConfigDialog(playerid) {
 		strcat(string, "\n{FF6666}CP Screen Flashing");
 		
 	if(DefendersWithVehicles == true)
-		strcat(string, "\n{66FF66}Defenders Can Spawn Vehicles");
+		strcat(string, "\n{66FF66}Defenders Can Use Vehicles");
 	else
-		strcat(string, "\n{FF6666}Defenders Can Spawn Vehicles");
+		strcat(string, "\n{FF6666}Defenders Can Use Vehicles");
 
     ShowPlayerDialog(playerid, DIALOG_CONFIG, DIALOG_STYLE_LIST, ""COL_PRIM"Config Settings", string, "OK", "Cancel");
     return 1;
