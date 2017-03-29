@@ -2,7 +2,7 @@
 		Gamemode core
 */
 
-new	const Float:GM_VERSION		= 		1.2;
+new	const Float:GM_VERSION		= 		1.21;
 #define 		GM_NAME				    "Att-Def"
 new 			GM_WEBSITE[50]	=	    "github.com/beijind/SAMPAttackDefend";
 
