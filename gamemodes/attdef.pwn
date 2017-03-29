@@ -7117,9 +7117,9 @@ YCMD:fakepacket(playerid, params[], help)
 	}
 	new pID, interv;
 	if(sscanf(params, "id", pID, interv)) return SendUsageMessage(playerid,"/fakepacket [Player ID] [Time in minutes]");
+	if(!IsPlayerConnected(pID)) return SendErrorMessage(playerid,"That player isn't connected.");
 	if(interv <= 0 || interv > 5)  return SendErrorMessage(playerid,"Invalid (Min: 1 | Max: 5).");
 	if(Player[pID][FakePacketRenovation])  return SendErrorMessage(playerid,"Player is already on fake packetloss renovation.");
-	if(!IsPlayerConnected(pID)) return SendErrorMessage(playerid,"That player isn't connected.");
 	if(NetStats_PacketLossPercent(pID) == 0.0) return SendErrorMessage(playerid, "That player has 0.0% packet-loss");
 
 	SetTimerEx("FakePacketRenovationEnd", interv * 60 * 1000, false, "ifb", pID, NetStats_PacketLossPercent(pID), true);

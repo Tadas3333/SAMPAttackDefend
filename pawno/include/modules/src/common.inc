@@ -640,19 +640,23 @@ playerid: the player who the command hits (use INVALID_PLAYER_ID to ignore this)
 LogAdminCommand(cmd[], adminid, playerid)
 {
 	new File:log = fopen("admin_command_log.txt", io_append);
-	new Year, Month, Day;
-	getdate(Year, Month, Day);
-	new Hours, Minutes, Seconds;
-	gettime(Hours, Minutes, Seconds);
-  	if(playerid != INVALID_PLAYER_ID)
-  	{
-		fwrite(log, sprintf("[%02d/%02d/%d][%02d:%02d:%02d] %s [%d] has used the command (/%s) at %s [%d]. \r\n", Day, Month, Year, Hours, Minutes, Seconds, Player[adminid][Name], adminid, cmd, Player[playerid][Name], playerid));
-   	}
-  	else
+	
+	if(log)
 	{
-		fwrite(log, sprintf("[%02d/%02d/%d][%02d:%02d:%02d] %s [%d] has used the command (/%s). \r\n", Day, Month, Year, Hours, Minutes, Seconds, Player[adminid][Name], adminid, cmd));
-  	}
-  	fclose(log);
+	    new Year, Month, Day;
+	    getdate(Year, Month, Day);
+	    new Hours, Minutes, Seconds;
+	    gettime(Hours, Minutes, Seconds);
+  	    if(playerid != INVALID_PLAYER_ID)
+  	    {
+		    fwrite(log, sprintf("[%02d/%02d/%d][%02d:%02d:%02d] %s [%d] has used the command (/%s) at %s [%d]. \r\n", Day, Month, Year, Hours, Minutes, Seconds, Player[adminid][Name], adminid, cmd, Player[playerid][Name], playerid));
+   	    }
+  	    else
+	    {
+		    fwrite(log, sprintf("[%02d/%02d/%d][%02d:%02d:%02d] %s [%d] has used the command (/%s). \r\n", Day, Month, Year, Hours, Minutes, Seconds, Player[adminid][Name], adminid, cmd));
+  	    }
+  	    fclose(log);
+	}
   	return 1;
 }
 
